@@ -1,7 +1,9 @@
 package Stack;
 
 import java.util.Stack;
-
+/*
+Leetcode link: https://leetcode.com/problems/valid-parentheses/description/
+ */
 public class IsValid {
     public boolean isValid(String s) {
         Stack<Character> tempOutput = new Stack<>();
