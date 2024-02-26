@@ -103,16 +103,44 @@ Total candies left: 8
  */
 public class SINS {
     public static void main(String[] args) {
-        System.out.println(candiesLeftAfterWar(4,8));
+        System.out.println(candiesLeftAfterWar(4, 8000, 0));
     }
 
-    static int candiesLeftAfterWar(int M, int B) {
-        if (M == 0 || B == 0 || M==B) return B + M;
-        if (M > B) M = Math.max(M - B, 0);
-        else B = Math.max(B - M, 0);
-        System.out.println("M :"+ M +" B :"+B);
-        return candiesLeftAfterWar(M, B);
+//    static int candiesLeftAfterWar(int M, int B) {
+//        if (M == 0 || B == 0 || M==B) return B + M;
+//        if (M > B) M = Math.max(M - B, 0);
+//        else B = Math.max(B - M, 0);
+//        System.out.println("M :"+ M +" B :"+B);
+//        return candiesLeftAfterWar(M, B);
+//    }
+
+    //Optimized solution
+    static int candiesLeftAfterWar(int M, int B, int result) {
+        System.out.println("M :" + M + " ,B:" + B);
+        System.out.println("===========");
+        System.out.println("result : " + result);
+        if (M == 0 || B == 0) return result + M + B;
+        if (M > B) {
+            System.out.println("result + B : " + result + B);
+            return candiesLeftAfterWar(M % B, B, result + B);
+        } else {
+            System.out.println("result + M : " + result + M);
+            return candiesLeftAfterWar(M, B % M, result + M);
+        }
     }
 
+    /*
+    Tail Recursion Optimization (TRO): You can optimize the recursion by implementing tail recursion.
+    In tail recursion, the recursive call is the last thing done by the function before it returns.
+    This allows the compiler to optimize the recursive function call into an iterative one, potentially
+    saving stack space and improving performance. However, in Java, the language specification does not
+     mandate tail call optimization, so the effectiveness of this optimization depends on the compiler.
+
+    Memoization: Memoization is a technique where you store the results of expensive function calls
+    and return the cached result when the same inputs occur again. In the context of this problem,
+    you can use memoization to cache the results of the recursive calls for different input values of M and B.
+    This can significantly reduce redundant computation, especially for large inputs or test cases where the same
+    input values occur multiple times.
+     */
 }
 
