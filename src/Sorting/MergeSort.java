@@ -1,53 +1,57 @@
 package Sorting;
+/*
+Leetcode Link: https://leetcode.com/problems/sort-an-array/description/
+ */
+import java.util.Arrays;
 
 public class MergeSort {
     public static void main(String[] args) {
         int[] input = {3, 11, 5, 9, 14, 1, 6};
-        int[] output = mergeSort(input, input.length);
+        int[] output = mergeSort(input);
         for (int element : output) {
             System.out.print(element + ", ");
         }
 
     }
 
-    static int[] mergeSort(int[] arr, int len) {
+    static int[] mergeSort(int[] nums) {
+        int len = nums.length;
+        if (len == 1) return nums;
+        int[] left = Arrays.copyOfRange(nums, 0, len / 2);
+        int[] right = Arrays.copyOfRange(nums, len / 2, len);
+        left = mergeSort(left);
+        right = mergeSort(right);
 
-        if (len <= 1) return arr;
-        else {
-            int leftLength = len / 2;
-            int rightLength = len - leftLength;
-            int[] left = new int[leftLength];
-            int[] right = new int[rightLength];
-            System.arraycopy(arr, 0, left, 0, leftLength);
-            System.arraycopy(arr, leftLength, right, 0, rightLength);
-            mergeSort(left, leftLength);
-            mergeSort(right, rightLength);
-            return mergeSortedArrays(left, leftLength, right, rightLength);
-        }
+        return mergeSortedArrays(left, right);
     }
 
-    static int[] mergeSortedArrays(int[] left, int leftLength, int[] right, int rightLength) {
-        int i = 0, j = 0, counter = 0;
-        int[] newArr = new int[leftLength + rightLength];
+    static int[] mergeSortedArrays(int[] left, int[] right) {
+        int[] output = new int[left.length + right.length];
+        int i = 0;
+        int j = 0;
+        int k = 0;
 
-        while (i < leftLength && j < rightLength) {
+        while (i < left.length && j < right.length) {
             if (left[i] < right[j]) {
-                newArr[counter++] = left[i++];
+                output[k] = left[i];
+                i++;
             } else {
-                newArr[counter++] = right[j++];
+                output[k] = right[j];
+                j++;
             }
+            k++;
+        }
+        while (i < left.length) {
+            output[k] = left[i];
+            i++;
+            k++;
+        }
+        while (j < right.length) {
+            output[k] = right[j];
+            k++;
+            j++;
         }
 
-        // Copy remaining elements of left array
-        while (i < leftLength) {
-            newArr[counter++] = left[i++];
-        }
-
-        // Copy remaining elements of right array
-        while (j < rightLength) {
-            newArr[counter++] = right[j++];
-        }
-
-        return newArr;
+        return output;
     }
 }
