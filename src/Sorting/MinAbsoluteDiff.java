@@ -10,6 +10,7 @@ public class MinAbsoluteDiff {
 
     static int minAbsDiff(int[] arr) {
         Arrays.sort(arr);
+        for (int ele : arr) System.out.println(ele);
         int min = Math.abs(arr[0]);
         for (int i = 1; i < arr.length; i++) {
             min = Math.min(min, Math.abs(arr[i] - arr[i - 1]));
